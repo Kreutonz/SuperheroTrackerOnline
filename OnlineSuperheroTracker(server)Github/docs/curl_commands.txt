@@ -1,0 +1,371 @@
+/*
+    Student Name    : Mike Kreutz
+    Student ID      : 301395435
+    Student Email   : mkreutz@sfu.ca
+ */
+
+
+# Read hello:
+curl -i -H "Content-Type: application/json" -X GET localhost:8080/hello
+
+
+# add new superhero(insert desired values at <value>):
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"<value>",
+        "heightInCm" : <value>,
+        "civilianSaveCount" :<value>,
+        "superPower" :"<value>"
+    }' localhost:8080/add
+
+
+# list all superheroes:
+curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+
+
+# remove a superhero (insert desired id at <id>):
+curl -i -H "Content-Type: application/json" -X POST localhost:8080/remove/<id>
+
+
+# update a hero (input desired values in body at <value> and then the desired id at <id>):
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"<value>",
+        "heightInCm" :<value>,
+        "civilianSaveCount" :<value>,
+        "superPower" :"<value>"
+    }' localhost:8080/update/<id>
+
+
+# list top 3 heroes :
+curl -i -H "Content-Type: application/json" -X GET localhost:8080/listTop3
+
+
+
+
+**********************************
+******** Generic Heroes **********
+**********************************
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Batman",
+        "heightInCm" :183.0,
+        "civilianSaveCount" :100,
+        "superPower" :"Super Rich"
+    }' localhost:8080/add
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Superman",
+        "heightInCm" :195.0,
+        "civilianSaveCount" :1200,
+        "superPower" :"Alien"
+    }' localhost:8080/add
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Wolverine",
+        "heightInCm" :182.0,
+        "civilianSaveCount" :850,
+        "superPower" :"Metal Claws"
+    }' localhost:8080/add
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Wonder Woman",
+        "heightInCm" :173.0,
+        "civilianSaveCount" :700,
+        "superPower" :"The Great Amazon"
+    }' localhost:8080/add
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Deadpool",
+        "heightInCm" :192.0,
+        "civilianSaveCount" :1000,
+        "superPower" :"Cannot die"
+    }' localhost:8080/add
+
+
+
+# trying to add negative civilianSaveCount
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name" :"Batman",
+        "heightInCm" :183.0,
+        "civilianSaveCount" :-200,
+        "superPower" :"Super rich"
+    }' localhost:8080/add
+
+
+# try to remove an id that doesn't exist (if less than 1000 id's)
+curl -i -H "Content-Type: application/json" -X POST localhost:8080/remove/1000
+
+
+
+
+***************************************
+**** PROFESSOR TESTS ON ASSIGNMENT ****
+***************************************
+
+i.) curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+
+        - status    ->      (200)
+        - body      ->      []
+
+        (***PASSED TEST***)
+
+ii.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Batman\", \"heightInCm\": 183.0, \"civilianSaveCount\": 100, \"superPower\": \"Super rich\" }" localhost:8080/add
+
+        - status    ->      (201)
+        - body      ->
+
+        {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 100,
+        "superPower" : "Super rich"
+        }
+
+        (***PASSED TEST***)
+
+iii.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Captain Marvel\", \"heightInCm\": 170, \"civilianSaveCount\": 200, \"superPower\": \"Proton Blast\" }" localhost:8080/add
+
+        - status    ->      (201)
+        - body      ->
+
+        {
+        "id" : 2,
+        "name" : "Captain Marvel",
+        "heightInCm" : 170.0,
+        "civilianSaveCount" : 200,
+        "superPower" : "Proton Blast"
+        }
+
+        (***PASSED TEST***)
+
+iv.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Storm\", \"heightInCm\": 200, \"civilianSaveCount\": 300, \"superPower\": \"Control Weather\" }" localhost:8080/add
+
+        - status    ->      (201)
+        - body      ->
+
+        {
+        "id" : 3,
+        "name" : "Storm",
+        "heightInCm" : 200.0,
+        "civilianSaveCount" : 300,
+        "superPower" : "Control Weather"
+        }
+
+        (***PASSED TEST***)
+
+v.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Earthworm Jim\", \"heightInCm\": 173, \"civilianSaveCount\": 0, \"superPower\": \"Superior Strength\" }" localhost:8080/add
+
+        - status    ->      (201)
+        - body      ->
+
+        {
+        "id" : 4,
+        "name" : "Earthworm Jim",
+        "heightInCm" : 173.0,
+        "civilianSaveCount" : 0,
+        "superPower" : "Superior Strength"
+        }
+
+        (***PASSED TEST***)
+
+vi.) curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+
+        - status    ->      (200)
+        - body      ->
+
+        [ {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 100,
+        "superPower" : "Super rich"
+        }, {
+        "id" : 2,
+        "name" : "Captain Marvel",
+        "heightInCm" : 170.0,
+        "civilianSaveCount" : 200,
+        "superPower" : "Proton Blast"
+        }, {
+        "id" : 3,
+        "name" : "Storm",
+        "heightInCm" : 200.0,
+        "civilianSaveCount" : 300,
+        "superPower" : "Control Weather"
+        }, {
+        "id" : 4,
+        "name" : "Earthworm Jim",
+        "heightInCm" : 173.0,
+        "civilianSaveCount" : 0,
+        "superPower" : "Superior Strength"
+        } ]
+
+        (***PASSED TEST***)
+
+
+vii.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Ultraman\", \"heightInCm\": -2, \"civilianSaveCount\": 0, \"superPower\": \"Super rich\" }" localhost:8080/add
+
+        status      ->      (400)
+        body        ->
+
+        {
+        "timestamp" : 1593383199870,
+        "status" : 400,
+        "error" : "Bad Request",
+        "message" : "Invalid values.",
+        "path" : "/add"
+        }
+
+        (***PASSED TEST***)
+
+viii.) curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+
+        status      ->      (200)
+        body        ->
+
+        [ {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 100,
+        "superPower" : "Super rich"
+        }, {
+        "id" : 2,
+        "name" : "Captain Marvel",
+        "heightInCm" : 170.0,
+        "civilianSaveCount" : 200,
+        "superPower" : "Proton Blast"
+        }, {
+        "id" : 3,
+        "name" : "Storm",
+        "heightInCm" : 200.0,
+        "civilianSaveCount" : 300,
+        "superPower" : "Control Weather"
+        }, {
+        "id" : 4,
+        "name" : "Earthworm Jim",
+        "heightInCm" : 173.0,
+        "civilianSaveCount" : 0,
+        "superPower" : "Superior Strength"
+        } ]
+
+        (***PASSED TEST***)
+
+xi.) curl -i -H "Content-Type: application/json" -X POST localhost:8080/remove/3
+
+        status      ->      (200)
+        body        ->
+
+        [ {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 100,
+        "superPower" : "Super rich"
+        }, {
+        "id" : 2,
+        "name" : "Captain Marvel",
+        "heightInCm" : 170.0,
+        "civilianSaveCount" : 200,
+        "superPower" : "Proton Blast"
+        }, {
+        "id" : 4,
+        "name" : "Earthworm Jim",
+        "heightInCm" : 173.0,
+        "civilianSaveCount" : 0,
+        "superPower" : "Superior Strength"
+        } ]
+
+        (***PASSED TEST***)
+
+x.) curl -i -H "Content-Type: application/json" -X POST localhost:8080/remove/100
+
+        status      ->      (404)
+        body        ->
+
+        {
+        "timestamp" : 1593383217640,
+        "status" : 404,
+        "error" : "Not Found",
+        "message" : "Request ID not found.",
+        "path" : "/remove/100"
+        }
+
+        (***PASSED TEST***)
+
+xi.) curl -i -H "Content-Type: application/json" -X
+    POST -d "{ \"name\": \"Batman\", \"heightInCm\": 183.0,
+    \"civilianSaveCount\": 150, \"superPower\": \"Super rich\" }" localhost:8080/update/1
+
+        status      ->      (200)
+        body        ->
+
+        {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 150,
+        "superPower" : "Super rich"
+        }
+
+        (***PASSED TEST***)
+
+xii.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Batman\", \"heightInCm\": 183.0, \"civilianSaveCount\": 150, \"superPower\": \"Super rich\" }" localhost:8080/update/100
+
+        status      ->      (404)
+        body        ->
+
+        {
+        "timestamp" : 1593383233296,
+        "status" : 404,
+        "error" : "Not Found",
+        "message" : "Request ID not found.",
+        "path" : "/update/100"
+        }
+
+        (***PASSED TEST***)
+
+xiii.) curl -i -H "Content-Type: application/json" -X POST -d "{ \"name\": \"Captain Marvel\", \"heightInCm\": -1, \"civilianSaveCount\": 200, \"superPower\": \"Proton Blast\" }" localhost:8080/update/2
+
+        status      ->      (400)
+        body        ->
+
+        {
+        "timestamp" : 1593383243689,
+        "status" : 400,
+        "error" : "Bad Request",
+        "message" : "Invalid values.",
+        "path" : "/update/2"
+        }
+
+        (***PASSED TEST***)
+
+xiv.) curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+
+        status      ->      (200)
+        body        ->
+
+        [ {
+        "id" : 1,
+        "name" : "Batman",
+        "heightInCm" : 183.0,
+        "civilianSaveCount" : 150,
+        "superPower" : "Super rich"
+        }, {
+        "id" : 2,
+        "name" : "Captain Marvel",
+        "heightInCm" : 170.0,
+        "civilianSaveCount" : 200,
+        "superPower" : "Proton Blast"
+        }, {
+        "id" : 4,
+        "name" : "Earthworm Jim",
+        "heightInCm" : 173.0,
+        "civilianSaveCount" : 0,
+        "superPower" : "Superior Strength"
+        } ]
+
+        (***PASSED TEST***)
